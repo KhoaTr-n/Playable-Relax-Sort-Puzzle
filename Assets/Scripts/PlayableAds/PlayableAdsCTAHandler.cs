@@ -1,3 +1,4 @@
+using Luna.Unity;
 using UnityEngine;
 
 namespace PlayableAds
@@ -12,13 +13,13 @@ namespace PlayableAds
 
         public static void TriggerCTA()
         {
-            if (_triggered) return;
-            _triggered = true;
-
             Debug.Log("[PlayableAds] CTA triggered — opening store");
 
-            Luna.Unity.LifeCycle.GameEnded();
-            Luna.Unity.Playable.InstallFullGame();
+            // 1. Gọi mở Store trước để trigger event "Click on CTA"
+            Playable.InstallFullGame();
+
+            // 2. Báo kết thúc màn chơi để trigger event "End of game"
+            LifeCycle.GameEnded();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Engine.ShelfPuzzle
     public class ShelfPuzzleInputData
     {
         public ShelfType Type;
-        public int[][] Data = Array.Empty<int[]>();
+        public int[][] Data = new int[0][];
     }
 }
 

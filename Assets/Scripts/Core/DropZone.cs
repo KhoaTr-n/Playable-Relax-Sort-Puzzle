@@ -134,7 +134,7 @@ namespace Core
 
         public bool ShouldSnapToCenter() => snapToCenter;
         public int GetSortingOrder() => spriteRenderer ? spriteRenderer.sortingOrder : 0;
-        public List<DragObject> GetContainedObjects() => new(_containedObjects);
+        public List<DragObject> GetContainedObjects() => new List<DragObject>(_containedObjects);
         public int GetObjectCount() => _containedObjects.Count;
         public bool IsActive() => isActive;
         public void SetActive(bool active) => isActive = active;

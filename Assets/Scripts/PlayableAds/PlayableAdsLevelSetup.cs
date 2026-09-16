@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Core;
 using Engine.ShelfPuzzle;
 using Game;
+using Luna.Unity;
 using Strategy.Level;
 using UnityEngine;
 using UnityEngine.U2D;
@@ -30,6 +31,9 @@ namespace PlayableAds
     public class PlayableAdsLevelSetup : MonoBehaviour
     {
         [Header("Grid Settings")]
+        [LunaPlaygroundField("CTA Threshold", 1, "Level Settings")]
+        public int ctaThreshold = 5;
+        
         [SerializeField] private int columnCount = 5;
         [SerializeField] private int rowCount = 4;
 
@@ -93,9 +97,6 @@ namespace PlayableAds
             // Thiết lập FPS 60 và tắt vSync để targetFrameRate có hiệu lực
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 60;
-
-            // Giữ màn hình không bị tắt/tối khi đang chơi Playable Ad
-            Screen.sleepTimeout = SleepTimeout.NeverSleep;
         }
 
         private void Start()
@@ -200,7 +201,8 @@ namespace PlayableAds
             _levelAnimation = new PlayableAdsLevelAnimation(
                 _levelDataManager,
                 dragDropManager,
-                gridData
+                gridData,
+                ctaThreshold
             );
             _levelAnimation.Enter();
         }
@@ -294,7 +296,7 @@ namespace PlayableAds
 
         private List<int> LoadDistributionFromJson()
         {
-            var levelDef = JsonUtility.FromJson<PlayableAdLevelDef>(levelJsonFile.text);
+            var levelDef = Newtonsoft.Json.JsonConvert.DeserializeObject<PlayableAdLevelDef>(levelJsonFile.text);
             var items = new List<int>();
             foreach (var shelf in levelDef.shelves)
             {

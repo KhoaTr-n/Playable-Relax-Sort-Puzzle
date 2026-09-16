@@ -164,7 +164,7 @@ namespace Strategy.Level
                 }
             }
 
-            return Array.Empty<IShelfItem>();
+            return new IShelfItem[0];
         }
 
         [CanBeNull]

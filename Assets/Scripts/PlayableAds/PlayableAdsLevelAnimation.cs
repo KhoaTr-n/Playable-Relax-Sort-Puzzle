@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Core;
 using Strategy.Level;
+using UnityEngine;
 
 namespace PlayableAds
 {
@@ -32,12 +33,11 @@ namespace PlayableAds
     /// </summary>
     public class PlayableAdsLevelAnimation
     {
-        private const int CtaThreshold = 5;
-
         private readonly ILevelDataManager _levelDataManager;
         private readonly IDragDropManager _dragDropManager;
         private readonly PlayableAdsGridData _gridData;
         private readonly PlayableAdsDragDropStep _dragDropStep;
+        private readonly int _ctaThreshold;
 
         private ILevelAnimationStep _currentStep;
         private int _completedMatchCount;
@@ -45,11 +45,13 @@ namespace PlayableAds
         public PlayableAdsLevelAnimation(
             ILevelDataManager levelDataManager,
             IDragDropManager dragDropManager,
-            PlayableAdsGridData gridData)
+            PlayableAdsGridData gridData,
+            int ctaThreshold = 5)
         {
             _levelDataManager = levelDataManager;
             _dragDropManager = dragDropManager;
             _gridData = gridData;
+            _ctaThreshold = ctaThreshold;
 
             var control = new PlayableAdsStateControl(
                 SwitchToDragDrop,
@@ -80,8 +82,29 @@ namespace PlayableAds
         private void SwitchToDragDrop()
         {
             _currentStep?.Exit();
+            if (_completedMatchCount >= _ctaThreshold)
+            {
+                TriggerEndGame();
+                _currentStep = null; // Trở về trạng thái Idle an toàn
+                return;
+            }
             _currentStep = _dragDropStep;
             _currentStep?.Enter();
+        }
+
+        private void TriggerEndGame()
+        {
+            _dragDropManager.Pause();
+                
+            if (PlayableAdsEndCard.Instance != null)
+            {
+                PlayableAdsEndCard.Instance.Show();
+            }
+            else
+            {
+                // Fallback nếu quên gắn UI End Card
+                PlayableAdsCTAHandler.TriggerCTA();
+            }
         }
 
         private void SwitchToTidyUp()
@@ -99,17 +122,14 @@ namespace PlayableAds
 
         /// <summary>
         /// Callback từ TidyUpStep khi có shelf match-3 được clear.
-        /// Tích lũy counter và trigger CTA khi đạt threshold.
         /// </summary>
         private void OnMatchCleared(int count)
         {
             _completedMatchCount += count;
-            UnityEngine.Debug.Log($"[PlayableAds] Match-3 cleared: +{count}, total: {_completedMatchCount}/{CtaThreshold}");
-
-            if (_completedMatchCount >= CtaThreshold)
-            {
-                PlayableAdsCTAHandler.TriggerCTA();
-            }
+            UnityEngine.Debug.Log($"[PlayableAds] Match-3 cleared: +{count}, total: {_completedMatchCount}/{_ctaThreshold}");
+            
+            // Log analytics
+            Luna.Unity.Analytics.LogEvent("match_cleared", _completedMatchCount);
         }
 
         private void SwitchToSlideDown(List<SlideData> slides)

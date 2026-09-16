@@ -17,7 +17,10 @@ namespace Core
         /* Object chứa các Drag & Drop */
         [SerializeField] private Transform container;
 
-        [Header("Visual Settings")] //
+        // State
+        private bool _hasInteracted;
+        
+        [Header("Drop Target Highlight")] //
         [SerializeField]
         private bool enableVisualFeedback = true;
 
@@ -190,6 +193,12 @@ namespace Core
 
         private void StartDrag(IDragObject dragObject)
         {
+            if (!_hasInteracted)
+            {
+                _hasInteracted = true;
+                // Luna.Unity.Analytics.LogEvent("first_interaction");
+            }
+
             _currentDraggingObject = dragObject;
 
             // Calculate offset
@@ -290,7 +299,8 @@ namespace Core
 
             foreach (var zoneData in _dropZones)
             {
-                if (zoneData.Zone is not DropZone2 zone2) continue;
+                var zone2 = zoneData.Zone as DropZone2;
+                if (zone2 == null) continue;
 
                 var shelfId = zone2.ShelfId;
 

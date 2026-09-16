@@ -23,12 +23,11 @@ namespace Game
         private IShelf2 _shelf;
 
         private List<Tween> _runningTween;
+        private static GameObject _blastPrefabCache;
 
         private void Awake()
         {
-#if !UNITY_EDITOR
-            Destroy(debugText.gameObject);
-#endif
+
             _runningTween = new List<Tween>();
         }
 
@@ -141,7 +140,22 @@ namespace Game
                     transform.position.y + 0.5f,
                     transform.position.z
                 );
-                // EffectUtils.Blink(effectPosition);
+                if (_blastPrefabCache == null)
+                {
+                    _blastPrefabCache = Resources.Load<GameObject>("Prefabs/MagicPillarBlastYellow");
+                }
+                
+                if (_blastPrefabCache != null)
+                {
+                    var effect = Instantiate(_blastPrefabCache);
+                    effect.transform.position = new Vector3(effectPosition.x, effectPosition.y, -8f);
+                    effect.transform.SetParent(null);
+                    var ps = effect.GetComponent<ParticleSystem>();
+                    ps?.Play();
+                    
+                    // Xóa effect khỏi RAM sau 1.5s để tránh memory leak
+                    Destroy(effect, 1.5f);
+                }
             }
 
             foreach (var t in _runningTween)
