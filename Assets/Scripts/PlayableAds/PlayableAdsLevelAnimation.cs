@@ -32,12 +32,15 @@ namespace PlayableAds
     /// </summary>
     public class PlayableAdsLevelAnimation
     {
+        private const int CtaThreshold = 5;
+
         private readonly ILevelDataManager _levelDataManager;
         private readonly IDragDropManager _dragDropManager;
         private readonly PlayableAdsGridData _gridData;
         private readonly PlayableAdsDragDropStep _dragDropStep;
 
         private ILevelAnimationStep _currentStep;
+        private int _completedMatchCount;
 
         public PlayableAdsLevelAnimation(
             ILevelDataManager levelDataManager,
@@ -88,9 +91,25 @@ namespace PlayableAds
                 new PlayableAdsStateControl(SwitchToDragDrop, SwitchToTidyUp, SwitchToSlideDown),
                 _levelDataManager,
                 _gridData,
-                _dragDropManager
+                _dragDropManager,
+                OnMatchCleared
             );
             _currentStep.Enter();
+        }
+
+        /// <summary>
+        /// Callback từ TidyUpStep khi có shelf match-3 được clear.
+        /// Tích lũy counter và trigger CTA khi đạt threshold.
+        /// </summary>
+        private void OnMatchCleared(int count)
+        {
+            _completedMatchCount += count;
+            UnityEngine.Debug.Log($"[PlayableAds] Match-3 cleared: +{count}, total: {_completedMatchCount}/{CtaThreshold}");
+
+            if (_completedMatchCount >= CtaThreshold)
+            {
+                PlayableAdsCTAHandler.TriggerCTA();
+            }
         }
 
         private void SwitchToSlideDown(List<SlideData> slides)

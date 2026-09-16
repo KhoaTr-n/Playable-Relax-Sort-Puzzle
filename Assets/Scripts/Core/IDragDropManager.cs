@@ -17,8 +17,5 @@ namespace Core
         void Init(Func<IDropZone, bool> canAcceptDropIntoFunc);
         
         bool IsDragging();
-
-        void RegisterClickableItem(IClickObject item);
-        void UnregisterClickableItem(int id);
     }
 }

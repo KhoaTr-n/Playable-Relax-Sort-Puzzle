@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Core;
 using DG.Tweening;
-using TMPro;
 using UnityEngine;
 
 namespace Game

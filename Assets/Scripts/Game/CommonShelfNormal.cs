@@ -1,7 +1,6 @@
 using System;
 using Core;
 using Engine.ShelfPuzzle;
-using TMPro;
 using UnityEngine;
 
 namespace Game

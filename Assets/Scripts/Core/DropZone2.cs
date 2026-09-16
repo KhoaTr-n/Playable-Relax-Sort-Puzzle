@@ -18,8 +18,7 @@ namespace Core
         [SerializeField] private bool snapToCenter = true;
 
         [Header("Custom Bounds")] //
-        [SerializeField]
-        private Vector2 customSize = new(1f, 1f);
+        [SerializeField] private Vector2 customSize = new Vector2(1f, 1f);
 
         public int ShelfId { get; private set; }
         public int SlotId { get; private set; }

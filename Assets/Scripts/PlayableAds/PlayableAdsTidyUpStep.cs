@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Core;
@@ -20,6 +21,7 @@ namespace PlayableAds
         private readonly ILevelDataManager _levelDataManager;
         private readonly PlayableAdsGridData _gridData;
         private readonly IDragDropManager _dragDropManager;
+        private readonly Action<int> _onMatchCleared;
 
         private List<MergeData> _merges;
         private bool _animationsStarted;
@@ -28,12 +30,14 @@ namespace PlayableAds
             PlayableAdsStateControl control,
             ILevelDataManager levelDataManager,
             PlayableAdsGridData gridData,
-            IDragDropManager dragDropManager)
+            IDragDropManager dragDropManager,
+            Action<int> onMatchCleared = null)
         {
             _control = control;
             _levelDataManager = levelDataManager;
             _gridData = gridData;
             _dragDropManager = dragDropManager;
+            _onMatchCleared = onMatchCleared;
         }
 
         public void Enter()
@@ -102,8 +106,15 @@ namespace PlayableAds
 
             // Phase 3: deactivate cleared shelves, unregister drop zones, collect slide data
             var allSlides = new List<SlideData>();
+            var matchClearCount = 0;
             foreach (var merge in _merges)
             {
+                // Chỉ đếm shelf match-3 (không tính shelf trống)
+                if (!merge.IsEmpty)
+                {
+                    matchClearCount++;
+                }
+
                 var shelf = _levelDataManager.GetShelf(merge.ShelfId);
                 if (shelf != null)
                 {
@@ -119,6 +130,12 @@ namespace PlayableAds
 
                 var slides = _gridData.OnShelfCleared(merge.ShelfId);
                 allSlides.AddRange(slides);
+            }
+
+            // Báo số shelf match-3 đã clear trong lượt này
+            if (matchClearCount > 0)
+            {
+                _onMatchCleared?.Invoke(matchClearCount);
             }
 
             _control.ToSlideDown(allSlides);

@@ -13,7 +13,7 @@ namespace Core
 
         [SerializeField] private bool returnToOriginal = true;
         [SerializeField] private bool useCustomBounds = true;
-        [SerializeField] private Vector2 customBounds = new(1f, 1.8f);
+        [SerializeField] private Vector2 customBounds = new Vector2(1f, 1.8f);
 
         public int Id { get; private set; }
         public Vector3 Position => transform.position;

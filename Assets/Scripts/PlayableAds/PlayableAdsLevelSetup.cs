@@ -51,13 +51,58 @@ namespace PlayableAds
         private ILevelDataManager _levelDataManager;
         private Dictionary<int, Sprite> _spriteMap; // typeId → Sprite
 
-        private const float StartY = -7.78f;
+        private const float TargetTotalWidth = 10.68f;
+
+        private float StartY
+        {
+            get
+            {
+                var mainCam = Camera.main;
+                var orthoSize = mainCam != null ? mainCam.orthographicSize : 9.13f;
+                return -orthoSize + 1.35f;
+            }
+        }
         private const float DeltaX = 3.38f;
         private const float DeltaY = 2.17f;
         private const float DeltaZ = -0.3f;
 
+        /// <summary>
+        /// Tính và set orthographicSize cho Camera.main theo công thức:
+        /// orthographicSize = TargetTotalWidth / (2 * aspectRatio)
+        /// </summary>
+        private void AdjustCameraOrthographicSize()
+        {
+            var mainCam = Camera.main;
+            if (mainCam == null) return;
+
+            var aspect = mainCam.aspect;
+            if (aspect <= 0f)
+            {
+                aspect = (float)Screen.width / Screen.height;
+            }
+
+            mainCam.orthographicSize = TargetTotalWidth / (2f * aspect);
+            Debug.Log($"[PlayableAds] Set orthographicSize = {mainCam.orthographicSize:F2} (aspect = {aspect:F4})");
+        }
+
+        private void Awake()
+        {
+            // Tắt multi-touch (chống nhấn nhiều ngón tay cùng lúc)
+            Input.multiTouchEnabled = false;
+
+            // Thiết lập FPS 60 và tắt vSync để targetFrameRate có hiệu lực
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = 60;
+
+            // Giữ màn hình không bị tắt/tối khi đang chơi Playable Ad
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        }
+
         private void Start()
         {
+            // 0. Set camera orthographic size trước tiên
+            AdjustCameraOrthographicSize();
+
             if (shelfPrefab == null)
             {
                 Debug.LogError("ShelfPrefab chưa được gán");

@@ -15,13 +15,13 @@ namespace Core
         [SerializeField] private int maxObjects = 1;
         [SerializeField] private string[] acceptedTypes;
         [SerializeField] private bool snapToCenter = true;
-        // [SerializeField] private Vector3 snapOffset = Vector3.zero;
-
+        [SerializeField] private bool useColorFeedback = false;
+        [SerializeField] private SpriteRenderer feedbackRenderer;
         [Header("Visual Settings")] [SerializeField]
-        private Color normalColor = new(1, 1, 1, 0.3f);
+        private Color normalColor = new Color(1, 1, 1, 0.3f);
 
-        [SerializeField] private Color hoverValidColor = new(0, 1, 0, 0.5f);
-        [SerializeField] private Color hoverInvalidColor = new(1, 0, 0, 0.5f);
+        [SerializeField] private Color hoverValidColor = new Color(0, 1, 0, 0.5f);
+        [SerializeField] private Color hoverInvalidColor = new Color(1, 0, 0, 0.5f);
         [SerializeField] private bool showDebugBounds = true;
 
         private List<DragObject> _containedObjects;

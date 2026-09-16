@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Core
 {
@@ -22,15 +21,14 @@ namespace Core
         [SerializeField]
         private bool enableVisualFeedback = true;
 
-        [SerializeField] private Color dragColor = new(1f, 1f, 1f, 0.8f);
-        [SerializeField] private Vector3 dragScale = new(1.1f, 1.1f, 1f);
+        [SerializeField] private Color dragColor = new Color(1f, 1f, 1f, 0.8f);
+        [SerializeField] private Vector3 dragScale = new Vector3(1.1f, 1.1f, 1f);
 
         private Func<IDropZone, bool> _canAcceptDropIntoFunc;
         private Action<ShelfItemMeta> _onItemPicked;
 
         // Registered objects
         private List<IDragObject> _dragObjects;
-        private List<IClickObject> _clickObjects;
         private List<DropZoneData> _dropZones;
 
         // Current drag state
@@ -48,7 +46,6 @@ namespace Core
             }
 
             _dragObjects = new List<IDragObject>();
-            _clickObjects = new List<IClickObject>();
             _dropZones = new List<DropZoneData>();
         }
 
@@ -102,10 +99,6 @@ namespace Core
         public void RegisterItemPickedAction(Action<ShelfItemMeta> onPicked)
         {
             _onItemPicked = onPicked;
-            foreach (var item in _clickObjects)
-            {
-                item.OnItemPickedAction = _onItemPicked;
-            }
         } 
 
         // Public utility methods
@@ -131,7 +124,6 @@ namespace Core
         {
             _currentDraggingObject = null;
             _dragObjects.Clear();
-            _clickObjects.Clear();
             _dropZones.Clear();
         }
 
@@ -166,38 +158,16 @@ namespace Core
             DropInto(dragObject, targetZoneData);
         }
 
-        public void RegisterClickableItem(IClickObject item)
-        {
-            if (!_clickObjects.Contains(item))
-            {
-                item.OnItemPickedAction = _onItemPicked;
-                _clickObjects.Add(item);
-            }
-        }
-
-        public void UnregisterClickableItem(int id)
-        {
-            var item = _clickObjects.FirstOrDefault(c => c.Id == id);
-            if (item == null) return;
-            _clickObjects.Remove(item);
-        }
-
         #endregion
 
         #region PRIVATE_METHODS
 
         private void HandleMouseInput()
         {
-            // Mouse down - start drag or click
+            // Mouse down - start drag
             if (Input.GetMouseButtonDown(0) && _currentDraggingObject == null)
             {
                 TryStartDrag();
-
-                // If no drag started, try clicking
-                if (_currentDraggingObject == null)
-                {
-                    TryClick();
-                }
             }
 
             // Mouse up - end drag
@@ -215,19 +185,6 @@ namespace Core
             if (objectUnderMouse != null)
             {
                 StartDrag(objectUnderMouse);
-            }
-        }
-
-        private void TryClick()
-        {
-            var mouseWorldPos = GetMouseWorldPosition();
-            foreach (var item in _clickObjects)
-            {
-                if (item.CanBeClicked() && item.ContainsPosition(mouseWorldPos))
-                {
-                    item.OnClicked();
-                    return;
-                }
             }
         }
 
