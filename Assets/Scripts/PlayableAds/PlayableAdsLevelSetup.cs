@@ -7,6 +7,7 @@ using Luna.Unity;
 using Strategy.Level;
 using UnityEngine;
 using UnityEngine.U2D;
+using DG.Tweening;
 using Random = UnityEngine.Random;
 
 namespace PlayableAds
@@ -51,6 +52,11 @@ namespace PlayableAds
         [Header("Fixed Level Data (Tùy chọn)")]
         [SerializeField] private TextAsset levelJsonFile;
 
+        [Header("Tutorial")]
+        [SerializeField] private GameObject tutorialHandPrefab;
+
+        private GameObject _tutorialHand;
+        private Sequence _tutorialSequence;
         private PlayableAdsLevelAnimation _levelAnimation;
         private ILevelDataManager _levelDataManager;
         private Dictionary<int, Sprite> _spriteMap; // typeId → Sprite
@@ -205,6 +211,40 @@ namespace PlayableAds
                 ctaThreshold
             );
             _levelAnimation.Enter();
+
+            DOVirtual.DelayedCall(1f, ShowTutorial);
+        }
+
+        private void ShowTutorial()
+        {
+            if (tutorialHandPrefab == null || _levelDataManager == null) return;
+
+            var startShelf = _levelDataManager.GetShelf(0);
+            var endShelf = _levelDataManager.GetShelf(16);
+
+            if (startShelf == null || endShelf == null) return;
+
+            var startZone = startShelf.DropZones[0];
+            var endZone = endShelf.DropZones[2];
+
+            var startPos = startZone.GetSnapPosition(0);
+            var endPos = endZone.GetSnapPosition(0);
+
+            // Z offset for hand so it renders on top
+            startPos.z = -2f;
+            endPos.z = -2f;
+
+            var parentTransform = startShelf.UnityTransform as Transform;
+            _tutorialHand = Instantiate(tutorialHandPrefab, startPos, Quaternion.identity, parentTransform);
+
+            Analytics.LogEvent(Analytics.EventType.TutorialStarted, 0);
+
+            _tutorialSequence = DOTween.Sequence();
+            _tutorialSequence.Append(_tutorialHand.transform.DOMove(endPos, 1f).SetEase(Ease.InOutSine))
+                .AppendInterval(0.2f)
+                .AppendCallback(() => _tutorialHand.transform.position = startPos)
+                .AppendInterval(0.2f)
+                .SetLoops(-1, LoopType.Restart);
         }
 
         /// <summary>
@@ -243,10 +283,20 @@ namespace PlayableAds
         private void Update()
         {
             _levelAnimation?.Update(Time.deltaTime);
+
+            if (_tutorialHand != null && Input.GetMouseButtonDown(0))
+            {
+                _tutorialSequence?.Kill();
+                Destroy(_tutorialHand);
+                _tutorialHand = null;
+
+                Analytics.LogEvent(Analytics.EventType.TutorialComplete, 0);
+            }
         }
 
         private void OnDestroy()
         {
+            _tutorialSequence?.Kill();
             _levelAnimation?.Dispose();
         }
 

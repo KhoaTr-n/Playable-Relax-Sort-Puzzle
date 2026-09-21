@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 66b35c0817f744343a28b30eaa8c1c7d
+guid: d0e3f77fe4da042a2a82614da39a79d1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1828912754737453803
-    second: item28_0
+      213: 8403215288983880825
+    second: hand_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,8 +49,8 @@ TextureImporter:
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 9
-  spritePivot: {x: 0.5, y: 0}
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
@@ -109,40 +109,27 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: item28_0
+      name: hand_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 97
-        height: 136
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 159
+        height: 135
+      alignment: 9
+      pivot: {x: 0.85, y: 0.85}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 51561b02a856e96e0800000000000000
-      internalID: -1828912754737453803
+      spriteID: 974040f78c73e9470800000000000000
+      internalID: 8403215288983880825
       vertices: []
       indices: 
       edges: []
@@ -151,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: f8aab0ca2b20bae41986a6012a4ed998
+    spriteID: b912eb66cbf6e4710b64360c3d32cb5b
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      item28_0: -1828912754737453803
+      hand_0: 8403215288983880825
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

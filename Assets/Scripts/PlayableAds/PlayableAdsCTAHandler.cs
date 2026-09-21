@@ -11,14 +11,9 @@ namespace PlayableAds
     {
         private static bool _triggered;
 
-        public static void TriggerCTA()
+        public static void TriggerCta()
         {
-            Debug.Log("[PlayableAds] CTA triggered — opening store");
-
-            // 1. Gọi mở Store trước để trigger event "Click on CTA"
             Playable.InstallFullGame();
-
-            // 2. Báo kết thúc màn chơi để trigger event "End of game"
             LifeCycle.GameEnded();
         }
     }

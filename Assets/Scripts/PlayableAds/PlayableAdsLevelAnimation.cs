@@ -103,7 +103,7 @@ namespace PlayableAds
             else
             {
                 // Fallback nếu quên gắn UI End Card
-                PlayableAdsCTAHandler.TriggerCTA();
+                PlayableAdsCTAHandler.TriggerCta();
             }
         }
 

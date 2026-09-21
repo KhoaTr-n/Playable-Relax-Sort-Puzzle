@@ -196,7 +196,6 @@ namespace Core
             if (!_hasInteracted)
             {
                 _hasInteracted = true;
-                // Luna.Unity.Analytics.LogEvent("first_interaction");
             }
 
             _currentDraggingObject = dragObject;

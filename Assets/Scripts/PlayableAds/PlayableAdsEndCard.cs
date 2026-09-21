@@ -49,7 +49,7 @@ namespace PlayableAds
         // Gọi hàm này từ sự kiện OnClick của Button "Play Now!"
         public void OnClickPlayNow()
         {
-            PlayableAdsCTAHandler.TriggerCTA();
+            PlayableAdsCTAHandler.TriggerCta();
         }
     }
 }
