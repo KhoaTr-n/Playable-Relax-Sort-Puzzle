@@ -1,5 +1,4 @@
 using Luna.Unity;
-using UnityEngine;
 
 namespace PlayableAds
 {
