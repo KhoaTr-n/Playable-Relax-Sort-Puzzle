@@ -78,6 +78,7 @@ namespace PlayableAds
 
             if (slotData == null)
             {
+                InGameSoundManager.Instance.PlaySound(AudioEnum.PutGoods);
                 var item = (ShelfItemBasic)_levelDataManager.FindItem(itemId);
                 var shelf = (ShelfBase)_levelDataManager.GetShelf(shelfId);
 

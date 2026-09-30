@@ -57,6 +57,7 @@ namespace PlayableAds
             // Phase 1: bắt đầu bounce animation (skip cho empty shelves)
             if (!_animationsStarted)
             {
+                bool hasMatch = false;
                 foreach (var merge in _merges)
                 {
                     if (merge.IsEmpty)
@@ -65,12 +66,18 @@ namespace PlayableAds
                         merge.AnimDone = merge.Items.Length;
                         continue;
                     }
+                    hasMatch = true;
 
                     foreach (var item in merge.Items)
                     {
                         var m = merge;
                         item.Bounce(() => m.AnimDone++);
                     }
+                }
+
+                if (hasMatch)
+                {
+                    InGameSoundManager.Instance.PlaySound(AudioEnum.Match);
                 }
 
                 _animationsStarted = true;

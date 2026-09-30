@@ -2214,10 +2214,6 @@
                 "excluded": true
             },
             {
-                "name": "UnityEngine.AudioClip",
-                "excluded": true
-            },
-            {
                 "name": "UnityEngine.AudioListener",
                 "excluded": true
             },
@@ -7158,10 +7154,6 @@
                 "excluded": true
             },
             {
-                "name": "DG.Tweening.DOVirtual",
-                "excluded": true
-            },
-            {
                 "name": "DG.Tweening.EaseFactory",
                 "excluded": true
             },
@@ -7179,10 +7171,6 @@
             },
             {
                 "name": "DG.Tweening.TweenParams",
-                "excluded": true
-            },
-            {
-                "name": "DG.Tweening.Core.SequenceCallback",
                 "excluded": true
             },
             {
@@ -8711,6 +8699,10 @@
             },
             {
                 "name": "Game.ShelfBase",
+                "excluded": false
+            },
+            {
+                "name": "Game.AudioEnum",
                 "excluded": false
             }
         ],
@@ -27518,6 +27510,10 @@
                     {
                         "name": "GenerateDistribution",
                         "excluded": true
+                    },
+                    {
+                        "name": "ShowTutorial",
+                        "excluded": false
                     }
                 ]
             },
@@ -28021,7 +28017,7 @@
                     },
                     {
                         "name": "UnityTransform#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Awake",
@@ -28307,7 +28303,7 @@
                     },
                     {
                         "name": "SetUpdateType",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "AddActiveTweenToSequence",
@@ -28921,7 +28917,7 @@
                     },
                     {
                         "name": "SetAutoKill$1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "SetId$1",
@@ -28993,7 +28989,7 @@
                     },
                     {
                         "name": "SetUpdate$2",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "SetInverted",
@@ -29025,7 +29021,7 @@
                     },
                     {
                         "name": "OnStepComplete",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "OnComplete",
@@ -29065,7 +29061,7 @@
                     },
                     {
                         "name": "AppendInterval",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "PrependInterval",
@@ -29073,7 +29069,7 @@
                     },
                     {
                         "name": "AppendCallback",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "PrependCallback",
@@ -29379,7 +29375,7 @@
                     },
                     {
                         "name": "IsAnyCallbackSet",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "DoPrepend",
@@ -29391,7 +29387,7 @@
                     },
                     {
                         "name": "DoAppendInterval",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "DoPrependInterval",
@@ -29399,7 +29395,7 @@
                     },
                     {
                         "name": "DoInsertCallback",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "init",
@@ -29760,7 +29756,7 @@
                 "staticMethods": [],
                 "instanceMethods": [
                     {
-                        "name": "TriggerCTA",
+                        "name": "TriggerCta",
                         "excluded": false
                     }
                 ]
@@ -32610,6 +32606,114 @@
                     {
                         "name": "$clone",
                         "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "UnityEngine.AudioClip",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "name#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "name#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "length#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "DG.Tweening.DOVirtual",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Float",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Int",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Vector3",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Color",
+                        "excluded": true
+                    },
+                    {
+                        "name": "EasedValue",
+                        "excluded": true
+                    },
+                    {
+                        "name": "EasedValue$1",
+                        "excluded": true
+                    },
+                    {
+                        "name": "EasedValue$2",
+                        "excluded": true
+                    },
+                    {
+                        "name": "EasedValue$3",
+                        "excluded": true
+                    },
+                    {
+                        "name": "EasedValue$4",
+                        "excluded": true
+                    },
+                    {
+                        "name": "EasedValue$5",
+                        "excluded": true
+                    },
+                    {
+                        "name": "EasedValue$6",
+                        "excluded": true
+                    },
+                    {
+                        "name": "EasedValue$7",
+                        "excluded": true
+                    },
+                    {
+                        "name": "DelayedCall",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "Game.InGameSoundManager",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "PlaySound",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Start",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "DG.Tweening.Core.SequenceCallback",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "ctor",
+                        "excluded": false
                     }
                 ]
             }
